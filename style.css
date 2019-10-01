@@ -1,0 +1,27 @@
+.parameterrow {
+    display: flex;
+    flex-direction: row;
+}
+
+.parameterrow>div {
+    flex-basis: 1;
+    padding: 0px 20px;
+}
+
+.parameterrow label {
+    padding: 10px;
+    display: inline-block;
+}
+
+.mangletable {
+    border-collapse: collapse;
+    margin: 50px 0px;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+}
+
+.mangletable td {
+    border: 1px solid #C0C0C0;
+    padding: 20px;
+}

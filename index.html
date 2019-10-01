@@ -1,0 +1,68 @@
+<html ng-app="Mangler">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+
+    <script src="app.js" type="text/javascript"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700" rel="stylesheet">
+
+    <link href="base-style.css" type="text/css" rel="stylesheet" />
+    <link href="style.css" type="text/css" rel="stylesheet" />
+
+    <title>Mangler</title>
+</head>
+
+<body ng-controller="MainController">
+    <div class="mainbox">
+        <h1>Mangler</h1>
+        <div class="parameterrow">
+            <div>
+                <label for="numberOfInstances">Number of Instances</label>
+                <input id="numberOfInstances" ng-model="numberOfInstances" type="number" step="1" min="1" max="10" value="5" />
+            </div>
+            <div>
+                <label for="numberOfParameters">Number of Parameters</label>
+                <input id="numberOfParameters" ng-model="numberOfParameters" type="number" step="1" min="1" max="40" value="2" />
+            </div>
+            <div>
+                <label for="numberOfKeys">Number of Keys</label>
+                <input id="numberOfKeys" ng-model="numberOfKeys" type="number" step="1" min="1" max="5" value="1" />
+            </div>
+            <div>
+                <label for="numberOfDistractors">Number of Distractors</label>
+                <input id="numberOfDistractors" ng-model="numberOfDistractors" type="number" step="1" min="1" max="5" value="4" />
+            </div>
+        </div>
+        <table class="mangletable">
+            <tr>
+                <td></td>
+                <td style="text-align: center;">Identifier / Formula</td>
+                <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index" style="text-align: center;">Instance {{$index + 1}}</td>
+            </tr>
+            <tr ng-repeat="i in getArrayOfLength(numberOfParameters) track by $index" style="background-color: hsla(210, 80%, 80%, 0.3);">
+                <td style="text-align: right;">Parameter {{$index + 1}}</td>
+                <td><input type="text" placeholder="identifier" ng-model="identifiers[$index]"/></td>
+             
+                <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index">
+                    <input type="number" placeholder="value" ng-model="parameters[$parent.$index][$index]"/>
+                </td>
+            </tr>
+            <tr ng-repeat="i in getArrayOfLength(numberOfKeys) track by $index" style="background-color: hsla(130, 80%, 80%, 0.3);">
+                <td style="text-align: right;">Key {{$index + 1}}</td>
+                <td><input type="text" placeholder="formula" ng-model="keyFormulae[$index]"/></td>
+            
+                <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index"></td>
+            </tr>
+            <tr ng-repeat="i in getArrayOfLength(numberOfDistractors) track by $index" style="background-color: hsla(30, 80%, 80%, 0.3);">
+                <td style="text-align: right;">Distractor {{$index + 1}}</td>
+                <td><input type="text" placeholder="formula" ng-model="distractorFormulae[$index]"/></td>
+            
+                <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index">{{parameters[0][0]}}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
