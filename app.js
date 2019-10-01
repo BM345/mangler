@@ -1,5 +1,9 @@
 var app = angular.module("Mangler", []);
 
+function isEmpty(o) {
+    return Object.keys(o).length === 0;
+}
+
 app.controller("MainController", ["$scope", function MainController($scope) {
 
     $scope.numberOfInstances = 5;
@@ -16,17 +20,88 @@ app.controller("MainController", ["$scope", function MainController($scope) {
         $scope.parameters.push(new Array(10));
     }
 
+    $scope.keysOutput = [];
+    $scope.distractorsOutput = [];
+
+    for (var i = 0; i < 5; i++) {
+        $scope.keysOutput.push(new Array(10));
+        $scope.distractorsOutput.push(new Array(10));
+    }
+
     $scope.getArrayOfLength = function (n) {
         return new Array(n);
     }
 
     $scope.updateOutput = function () {
 
-        for (var i = 0; i < $scope.numberOfInstances; i++){
+        for (var i = 0; i < $scope.numberOfInstances; i++) {
+            console.log("Instance " + (i+1));
+
             var namesTable = {};
 
-            for (var j = 0; j < $scope.identifiers.length; j++){
-                namesTable[$scope.identifiers[j]] = $scope.parameters[i][j];
+            console.log($scope.identifiers);
+
+            for (var j = 0; j < $scope.identifiers.length; j++) {
+                var parameterIdentifier = $scope.identifiers[j];
+                var parameterValue = $scope.parameters[i][j];
+
+                if (parameterIdentifier == "" || parameterIdentifier == undefined || parameterValue == "" || parameterValue == undefined) {
+                    continue;
+                }
+
+                namesTable[parameterIdentifier] = parameterValue;
+            }
+
+            if (isEmpty(namesTable)) {
+                continue;
+            }
+
+            console.log(namesTable);
+
+            for (var j = 0; j < $scope.numberOfKeys; j++) {
+                var formula = $scope.keyFormulae[j];
+
+                $scope.keysOutput[i][j] = "";
+
+                if (formula == "" || formula == undefined) {
+                    continue;
+                }
+
+                var js = formula;
+
+                for (var name in namesTable) {
+                    js = js.replace(name, namesTable[name]);
+                }
+
+                console.log(js);
+
+                try {
+                    $scope.keysOutput[i][j] = eval(js);
+                }
+                catch{ }
+            }
+
+            for (var j = 0; j < $scope.numberOfDistractors; j++) {
+                var formula = $scope.distractorFormulae[j];
+
+                $scope.distractorsOutput[i][j] = "";
+
+                if (formula == "" || formula == undefined) {
+                    continue;
+                }
+
+                var js = formula;
+
+                for (var name in namesTable) {
+                    js = js.replace(name, namesTable[name]);
+                }
+
+                console.log(js);
+
+                try {
+                    $scope.distractorsOutput[i][j] = eval(js);
+                }
+                catch{ }
             }
         }
 
@@ -34,18 +109,18 @@ app.controller("MainController", ["$scope", function MainController($scope) {
 
     $scope.$watch('identifiers', function () {
         $scope.updateOutput();
-    });
+    }, true);
 
     $scope.$watch('keyFormulae', function () {
         $scope.updateOutput();
-    });
+    }, true);
 
     $scope.$watch('distractorFormulae', function () {
         $scope.updateOutput();
-    });
+    }, true);
 
     $scope.$watch('parameters', function () {
         $scope.updateOutput();
-    });
+    }, true);
 
 }]);
