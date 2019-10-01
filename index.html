@@ -20,46 +20,46 @@
         <div class="parameterrow">
             <div>
                 <label for="numberOfInstances">Number of Instances</label>
-                <input id="numberOfInstances" ng-model="numberOfInstances" type="number" step="1" min="1" max="10" value="5" />
+                <input id="numberOfInstances" ng-model="mangleGrid.numberOfInstances" type="number" step="1" min="1" max="10" />
             </div>
             <div>
-                <label for="numberOfParameters">Number of Parameters</label>
-                <input id="numberOfParameters" ng-model="numberOfParameters" type="number" step="1" min="1" max="40" value="2" />
+                <label for="numberOfQuestionParameters">Number of Parameters</label>
+                <input id="numberOfQuestionParameters" ng-model="mangleGrid.numberOfQuestionParameters" type="number" step="1" min="1" max="40" />
             </div>
             <div>
-                <label for="numberOfKeys">Number of Keys</label>
-                <input id="numberOfKeys" ng-model="numberOfKeys" type="number" step="1" min="1" max="5" value="1" />
+                <label for="numberOfKeyParameters">Number of Keys</label>
+                <input id="numberOfKeyParameters" ng-model="mangleGrid.numberOfKeyParameters" type="number" step="1" min="1" max="5" />
             </div>
             <div>
-                <label for="numberOfDistractors">Number of Distractors</label>
-                <input id="numberOfDistractors" ng-model="numberOfDistractors" type="number" step="1" min="1" max="5" value="4" />
+                <label for="numberOfDistractorParameters">Number of Distractors</label>
+                <input id="numberOfDistractorParameters" ng-model="mangleGrid.numberOfDistractorParameters" type="number" step="1" min="1" max="5" />
             </div>
         </div>
         <table class="mangletable">
             <tr>
                 <td></td>
                 <td style="text-align: center;">Identifier / Formula</td>
-                <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index" style="text-align: center;">Instance {{$index + 1}}</td>
+                <td ng-repeat="j in ni track by $index">Instance {{$index + 1}}</td>
             </tr>
-            <tr ng-repeat="i in getArrayOfLength(numberOfParameters) track by $index" style="background-color: hsla(210, 80%, 80%, 0.3);">
+            <tr ng-repeat="i in nqp track by $index" class="questionRow">
                 <td style="text-align: right;">Parameter {{$index + 1}}</td>
-                <td><input type="text" placeholder="identifier" ng-model="identifiers[$index]" /></td>
+                <td><input type="text" placeholder="identifier" ng-model="mangleGrid.identifiers[$index]" /></td>
 
-                <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index">
-                    <input type="number" placeholder="value" ng-model="parameters[$index][$parent.$index]" />
+                <td ng-repeat="j in ni track by $index">
+                    <input type="number" placeholder="value" ng-model="mangleGrid.questionInputs[$index][$parent.$index]" />
                 </td>
             </tr>
-            <tr ng-repeat="i in getArrayOfLength(numberOfKeys) track by $index" style="background-color: hsla(130, 80%, 80%, 0.3);">
+            <tr ng-repeat="i in nkp track by $index" class="keyRow">
                 <td style="text-align: right;">Key {{$index + 1}}</td>
-                <td><input type="text" placeholder="formula" ng-model="keyFormulae[$index]" /></td>
+                <td><input type="text" placeholder="formula" ng-model="mangleGrid.keyFormulae[$index]" /></td>
 
-                <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index">{{keysOutput[$index][$parent.$index]}}</td>
+                <td ng-repeat="j in ni track by $index">{{mangleGrid.keysOutput[$index][$parent.$index]}}</td>
             </tr>
-            <tr ng-repeat="i in getArrayOfLength(numberOfDistractors) track by $index" style="background-color: hsla(30, 80%, 80%, 0.3);">
+            <tr ng-repeat="i in ndp track by $index" class="distractorRow">
                 <td style="text-align: right;">Distractor {{$index + 1}}</td>
-                <td><input type="text" placeholder="formula" ng-model="distractorFormulae[$index]" /></td>
+                <td><input type="text" placeholder="formula" ng-model="mangleGrid.distractorFormulae[$index]" /></td>
 
-                <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index">{{distractorsOutput[$index][$parent.$index]}}</td>
+                <td ng-repeat="j in ni track by $index">{{mangleGrid.distractorsOutput[$index][$parent.$index]}}</td>
             </tr>
         </table>
         <div>

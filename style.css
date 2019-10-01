@@ -25,3 +25,15 @@
     border: 1px solid #C0C0C0;
     padding: 20px;
 }
+
+.questionRow {
+    background-color: hsla(210, 80%, 80%, 0.3);
+}
+
+.keyRow {
+    background-color: hsla(130, 80%, 80%, 0.3);
+}
+
+.distractorRow {
+    background-color: hsla(30, 80%, 80%, 0.3);
+}
