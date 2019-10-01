@@ -43,25 +43,28 @@
             </tr>
             <tr ng-repeat="i in getArrayOfLength(numberOfParameters) track by $index" style="background-color: hsla(210, 80%, 80%, 0.3);">
                 <td style="text-align: right;">Parameter {{$index + 1}}</td>
-                <td><input type="text" placeholder="identifier" ng-model="identifiers[$index]"/></td>
-             
+                <td><input type="text" placeholder="identifier" ng-model="identifiers[$index]" /></td>
+
                 <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index">
-                    <input type="number" placeholder="value" ng-model="parameters[$index][$parent.$index]"/>
+                    <input type="number" placeholder="value" ng-model="parameters[$index][$parent.$index]" />
                 </td>
             </tr>
             <tr ng-repeat="i in getArrayOfLength(numberOfKeys) track by $index" style="background-color: hsla(130, 80%, 80%, 0.3);">
                 <td style="text-align: right;">Key {{$index + 1}}</td>
-                <td><input type="text" placeholder="formula" ng-model="keyFormulae[$index]"/></td>
-            
+                <td><input type="text" placeholder="formula" ng-model="keyFormulae[$index]" /></td>
+
                 <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index">{{keysOutput[$index][$parent.$index]}}</td>
             </tr>
             <tr ng-repeat="i in getArrayOfLength(numberOfDistractors) track by $index" style="background-color: hsla(30, 80%, 80%, 0.3);">
                 <td style="text-align: right;">Distractor {{$index + 1}}</td>
-                <td><input type="text" placeholder="formula" ng-model="distractorFormulae[$index]"/></td>
-            
+                <td><input type="text" placeholder="formula" ng-model="distractorFormulae[$index]" /></td>
+
                 <td ng-repeat="j in getArrayOfLength(numberOfInstances) track by $index">{{distractorsOutput[$index][$parent.$index]}}</td>
             </tr>
         </table>
+        <div>
+            <button data-clipboard-text="{{getNotesText()}}" class="copyButton">Copy notes</button>
+        </div>
     </div>
 </body>
 

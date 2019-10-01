@@ -32,10 +32,30 @@ app.controller("MainController", ["$scope", function MainController($scope) {
         return new Array(n);
     }
 
+    $scope.getNotesText = function () {
+        var text = "Key and Distractor Formulae: \n\n";
+
+        for (var i = 0; i < $scope.keyFormulae.length; i++) {
+            if ($scope.keyFormulae[i] == "" || $scope.keyFormulae[i] == undefined) {
+                continue;
+            }
+            text += "k" + (i + 1) + " = " + $scope.keyFormulae[i] + "\n";
+        }
+
+        for (var i = 0; i < $scope.distractorFormulae.length; i++) {
+            if ($scope.distractorFormulae[i] == "" || $scope.distractorFormulae[i] == undefined) {
+                continue;
+            }
+            text += "d" + (i + 1) + " = " + $scope.distractorFormulae[i] + "\n";
+        }
+
+        return text;
+    }
+
     $scope.updateOutput = function () {
 
         for (var i = 0; i < $scope.numberOfInstances; i++) {
-            console.log("Instance " + (i+1));
+            console.log("Instance " + (i + 1));
 
             var namesTable = {};
 
@@ -122,5 +142,7 @@ app.controller("MainController", ["$scope", function MainController($scope) {
     $scope.$watch('parameters', function () {
         $scope.updateOutput();
     }, true);
+
+    new ClipboardJS(".copyButton");
 
 }]);
