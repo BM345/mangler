@@ -35,6 +35,18 @@
                 <input id="numberOfDistractorParameters" ng-model="mangleGrid.numberOfDistractorParameters" type="number" step="1" min="1" max="5" />
             </div>
         </div>
+        <div class="parameterrow">
+            <div>
+                <label for="roundToNSF">Round to n Significant Figures</label>
+                <input id="roundToNSF" ng-model="mangleGrid.roundToNSF" type="number" step="1" min="0" max="10" />
+            </div>
+            <div>
+            </div>
+            <div>
+            </div>
+            <div>
+            </div>
+        </div>
         <table class="mangletable">
             <tr>
                 <td></td>
@@ -46,20 +58,20 @@
                 <td><input type="text" placeholder="identifier" ng-model="mangleGrid.identifiers[$index]" /></td>
 
                 <td ng-repeat="j in ni track by $index">
-                    <input type="number" placeholder="value" ng-model="mangleGrid.questionInputs[$index][$parent.$index]" />
+                    <input type="number" placeholder="value" ng-model="mangleGrid.questionInputs[$parent.$index][$index]" />
                 </td>
             </tr>
             <tr ng-repeat="i in nkp track by $index" class="keyRow">
                 <td style="text-align: right;">Key {{$index + 1}}</td>
                 <td><input type="text" placeholder="formula" ng-model="mangleGrid.keyFormulae[$index]" /></td>
 
-                <td ng-repeat="j in ni track by $index">{{mangleGrid.keysOutput[$index][$parent.$index]}}</td>
+                <td ng-repeat="j in ni track by $index" style="{{mangleGrid._grid[$parent.$index + mangleGrid.maximumNumberOfQuestionParameters][$index].style}}">{{mangleGrid._grid[$parent.$index + mangleGrid.maximumNumberOfQuestionParameters][$index].displayValue}}</td>
             </tr>
             <tr ng-repeat="i in ndp track by $index" class="distractorRow">
                 <td style="text-align: right;">Distractor {{$index + 1}}</td>
                 <td><input type="text" placeholder="formula" ng-model="mangleGrid.distractorFormulae[$index]" /></td>
 
-                <td ng-repeat="j in ni track by $index">{{mangleGrid.distractorsOutput[$index][$parent.$index]}}</td>
+                <td ng-repeat="j in ni track by $index" style="{{mangleGrid._grid[$parent.$index+ mangleGrid.maximumNumberOfQuestionParameters + mangleGrid.maximumNumberOfKeyParameters][$index].style}}">{{mangleGrid._grid[$parent.$index+ mangleGrid.maximumNumberOfQuestionParameters + mangleGrid.maximumNumberOfKeyParameters][$index].displayValue}}</td>
             </tr>
         </table>
         <div>

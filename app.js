@@ -1,3 +1,8 @@
+String.prototype.replaceAll = function (search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 var app = angular.module("Mangler", []);
 
 function isNullOrUndefined(a) {
@@ -6,6 +11,30 @@ function isNullOrUndefined(a) {
 
 function isEmpty(o) {
     return Object.keys(o).length === 0;
+}
+
+function sin(theta) {
+    return Math.sin(2 * Math.PI * theta / 360);
+}
+
+function cos(theta) {
+    return Math.cos(2 * Math.PI * theta / 360);
+}
+
+function tan(theta) {
+    return Math.tan(2 * Math.PI * theta / 360);
+}
+
+function asin(x) {
+    return Math.asin(x) * 360 / (2 * Math.PI);
+}
+
+function acos(x) {
+    return Math.acos(x) * 360 / (2 * Math.PI);
+}
+
+function atan(x) {
+    return Math.atan(x) * 360 / (2 * Math.PI);
 }
 
 class MangleGrid {
@@ -29,6 +58,8 @@ class MangleGrid {
         for (var i = 0; i < this.height; i++) {
             this._grid.push(new Array(this.width));
         }
+
+        this.roundToNSF = 3;
     }
 
     get width() {
@@ -83,7 +114,16 @@ app.controller("MainController", ["$scope", function MainController($scope) {
     $scope.ndp = $scope.getArrayOfLength($scope.mangleGrid.numberOfDistractorParameters);
 
     $scope.getNotesText = function () {
-        var text = "Key and Distractor Formulae: \n\n";
+        var text = "\n\nKey and Distractor Formulae: \n\n";
+
+        for (var i = 0; i < $scope.mangleGrid.identifiers.length; i++) {
+            if ($scope.mangleGrid.identifiers[i] == undefined) {
+                continue;
+            }
+            text += $scope.mangleGrid.identifiers[i] + " = p" + (i + 1) + "\n";
+        }
+
+        text += "\n";
 
         for (var i = 0; i < $scope.mangleGrid.keyFormulae.length; i++) {
             if ($scope.mangleGrid.keyFormulae[i] == "" || $scope.mangleGrid.keyFormulae[i] == undefined) {
@@ -104,55 +144,116 @@ app.controller("MainController", ["$scope", function MainController($scope) {
 
     $scope.updateOutput = function () {
 
-        for (var i = 0; i < $scope.mangleGrid.numberOfInstances; i++) {
-            var namesTable = $scope.mangleGrid.getNamesTableForInstance(i);
+        var mg = $scope.mangleGrid;
+
+        for (var i = 0; i < mg.numberOfInstances; i++) {
+            var namesTable = mg.getNamesTableForInstance(i);
 
             if (isEmpty(namesTable)) { continue; }
 
-              console.log(namesTable);
+            console.log(namesTable);
 
-            for (var j = 0; j < $scope.mangleGrid.numberOfKeys; j++) {
-                var formula = $scope.mangleGrid.keyFormulae[j];
+            for (var j = 0; j < mg.numberOfKeyParameters; j++) {
+                var formula = mg.keyFormulae[j];
 
-                $scope.mangleGrid.keysOutput[i][j] = "";
+                var m = mg.maximumNumberOfQuestionParameters;
+                mg._grid[j + m][i] = { displayValue: "", trueValue: "", isDuplicate: false };
 
                 if (isNullOrUndefined(formula)) { continue; }
 
-                var js = formula;
+                var js = formula + ";";
 
                 for (var name in namesTable) {
-                    js = js.replace(name, namesTable[name]);
+                    js = js.replaceAll(name, namesTable[name]);
                 }
 
+                console.log(js);
+
                 try {
-                    $scope.mangleGrid.keysOutput[i][j] = eval(js);
+                    var a = eval(js);
+
+                    mg._grid[j + m][i].trueValue = a;
+
+                    if (mg.roundToNSF > 0) {
+                        a = a.toPrecision(mg.roundToNSF);
+                    }
+
+                    mg._grid[j + m][i].displayValue = a;
                 }
                 catch{ }
             }
 
-            for (var j = 0; j < $scope.mangleGrid.numberOfDistractors; j++) {
-                var formula = $scope.mangleGrid.distractorFormulae[j];
+            for (var j = 0; j < mg.numberOfDistractorParameters; j++) {
+                var formula = mg.distractorFormulae[j];
 
-                $scope.mangleGrid.distractorsOutput[i][j] = "";
+                var m = mg.maximumNumberOfQuestionParameters + mg.maximumNumberOfKeyParameters;
+                mg._grid[j + m][i] = { displayValue: "", trueValue: "", isDuplicate: false };
 
                 if (isNullOrUndefined(formula)) { continue; }
 
-                var js = formula;
+                var js = formula + ";";
 
                 for (var name in namesTable) {
-                    js = js.replace(name, namesTable[name]);
+                    js = js.replaceAll(name, namesTable[name]);
                 }
 
                 try {
-                    $scope.mangleGrid.distractorsOutput[i][j] = eval(js);
+                    var a = eval(js);
+
+                    mg._grid[j + m][i].trueValue = a;
+
+                    if (mg.roundToNSF > 0) {
+                        a = a.toPrecision(mg.roundToNSF);
+                    }
+
+                    mg._grid[j + m][i].displayValue = a;
                 }
                 catch{ }
             }
+
+            var m = mg.maximumNumberOfQuestionParameters;
+            var n = mg.maximumNumberOfKeyParameters + mg.maximumNumberOfDistractorParameters;
+
+            for (var j = m; j < m + n; j++) {
+
+                var cellJI = mg._grid[j][i];
+
+                if (cellJI == undefined) {
+                    continue;
+                }
+
+                cellJI.isDuplicate = false;
+                cellJI.style = '';
+
+                for (var k = m; k < m + n; k++) {
+
+                    var cellKI = mg._grid[k][i];
+
+                    if (j == k || cellJI == undefined || cellKI == undefined) {
+                        continue;
+                    }
+
+                    var a = cellJI.displayValue;
+                    var b = cellKI.displayValue;
+
+                    if (a == b && a != '' && b != '') {
+                        cellJI.isDuplicate = true;
+                        cellJI.style = 'background-color: hsla(350, 80%, 80%, 0.3);';
+                    }
+                }
+            }
+
         }
 
     }
 
     $scope.$watch('mangleGrid', function () {
+
+        $scope.ni = $scope.getArrayOfLength($scope.mangleGrid.numberOfInstances);
+        $scope.nqp = $scope.getArrayOfLength($scope.mangleGrid.numberOfQuestionParameters);
+        $scope.nkp = $scope.getArrayOfLength($scope.mangleGrid.numberOfKeyParameters);
+        $scope.ndp = $scope.getArrayOfLength($scope.mangleGrid.numberOfDistractorParameters);
+
         $scope.updateOutput();
     }, true);
 

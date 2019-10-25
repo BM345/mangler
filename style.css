@@ -1,6 +1,7 @@
 .parameterrow {
     display: flex;
     flex-direction: row;
+    margin: 20px 0px;
 }
 
 .parameterrow>div {
@@ -26,14 +27,14 @@
     padding: 20px;
 }
 
-.questionRow {
+.questionRow td {
     background-color: hsla(210, 80%, 80%, 0.3);
 }
 
-.keyRow {
+.keyRow td {
     background-color: hsla(130, 80%, 80%, 0.3);
 }
 
-.distractorRow {
+.distractorRow td {
     background-color: hsla(30, 80%, 80%, 0.3);
 }
