@@ -116,11 +116,14 @@ app.controller("MainController", ["$scope", function MainController($scope) {
     $scope.getNotesText = function () {
         var text = "\n\nKey and Distractor Formulae: \n\n";
 
+        var j = 1;
+
         for (var i = 0; i < $scope.mangleGrid.identifiers.length; i++) {
             if ($scope.mangleGrid.identifiers[i] == undefined) {
                 continue;
             }
-            text += $scope.mangleGrid.identifiers[i] + " = p" + (i + 1) + "\n";
+            text += $scope.mangleGrid.identifiers[i] + " = p" + j + "\n";
+            j++;
         }
 
         text += "\n";
@@ -129,14 +132,16 @@ app.controller("MainController", ["$scope", function MainController($scope) {
             if ($scope.mangleGrid.keyFormulae[i] == "" || $scope.mangleGrid.keyFormulae[i] == undefined) {
                 continue;
             }
-            text += "k" + (i + 1) + " = " + $scope.mangleGrid.keyFormulae[i] + "\n";
+            text += "p" + j + " = " + $scope.mangleGrid.keyFormulae[i] + "\n";
+            j++;
         }
 
         for (var i = 0; i < $scope.mangleGrid.distractorFormulae.length; i++) {
             if ($scope.mangleGrid.distractorFormulae[i] == "" || $scope.mangleGrid.distractorFormulae[i] == undefined) {
                 continue;
             }
-            text += "d" + (i + 1) + " = " + $scope.mangleGrid.distractorFormulae[i] + "\n";
+            text += "p" + j + " = " + $scope.mangleGrid.distractorFormulae[i] + "\n";
+            j++;
         }
 
         return text;

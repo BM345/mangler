@@ -2,26 +2,24 @@ body {
   margin: 0px;
   padding: 0px;
   font-weight: lighter;
-  font-size: 20px;
+  font-size: 15px;
   font-family: "Open Sans", sans-serif;
-  background-color: #FAFAFA;
+  background-color: #FFFFFF;
 }
 
 .mainbox {
-  margin: 50px auto;
-  padding: 100px;
+  margin: 0;
+  padding: 50px;
   max-width: 1400px;
   background-color: #FFFFFF;
-  box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 1px;
 }
 
 h1 {
   text-align: center;
   font-weight: inherit;
-  font-size: 50px;
+  font-size: 35px;
   padding: 0px;
-  margin: 50px 0px 100px 0px;
+  margin: 30px 0px 50px 0px;
 }
 
 strong {
@@ -30,8 +28,8 @@ strong {
 
 p {
   padding: 0px;
-  margin: 30px 0px;
-  font-size: 17px;
+  margin: 20px 0px;
+  font-size: 15px;
   text-align: justify;
 }
 
@@ -41,9 +39,9 @@ input {
 }
 
 input[type="text"], input[type="number"] {
-  padding: 10px 20px;
-  font-size: 22px;
-  max-width: 150px;
+  padding: 5px 10px;
+  font-size: 15px;
+  max-width: 100px;
   border-radius: 1px;
   border: 1px solid #E0E0E0;
 }
@@ -57,8 +55,8 @@ textarea {
   font-size: inherit;
   font-weight: normal;
   display: block;
-  padding: 20px;
-  font-size: 22px;
+  padding: 10px;
+  font-size: 15px;
   width: 100%;
   box-sizing: border-box;
   border-radius: 1px;
@@ -87,7 +85,50 @@ button:focus {
 }
 
 .copyButton {
-  padding: 10px 50px;
-  font-size: 30px;
-  max-width: 300px;
+  padding: 10px 20px;
+  font-size: 17px;
+  max-width: 200px;
 }
+
+@media (min-width: 1500px) {
+  body {
+    font-size: 15px;
+    background-color: #FAFAFA;
+  }
+  .mainbox {
+    margin: 50px auto;
+    padding: 100px;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 1px;
+  }
+  h1 {
+    font-size: 50px;
+    padding: 0px;
+    margin: 50px 0px 100px 0px;
+  }
+  p {
+    margin: 30px 0px;
+    font-size: 17px;
+  }
+  input[type="text"], input[type="number"] {
+    padding: 10px 20px;
+    font-size: 22px;
+    max-width: 150px;
+  }
+  textarea {
+    padding: 20px;
+    font-size: 22px;
+    margin: 10px 0px;
+    min-height: 300px;
+  }
+  button {
+    margin: 0px;
+  }
+  .copyButton {
+    padding: 10px 50px;
+    font-size: 30px;
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 1000px) {}
