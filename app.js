@@ -1,7 +1,3 @@
-String.prototype.replaceAll = function (search, replacement) {
-    var target = this;
-    return target.replace(new RegExp(search, 'g'), replacement);
-};
 
 var app = angular.module("Mangler", []);
 
@@ -11,30 +7,6 @@ function isNullOrUndefined(a) {
 
 function isEmpty(o) {
     return Object.keys(o).length === 0;
-}
-
-function sin(theta) {
-    return Math.sin(2 * Math.PI * theta / 360);
-}
-
-function cos(theta) {
-    return Math.cos(2 * Math.PI * theta / 360);
-}
-
-function tan(theta) {
-    return Math.tan(2 * Math.PI * theta / 360);
-}
-
-function asin(x) {
-    return Math.asin(x) * 360 / (2 * Math.PI);
-}
-
-function acos(x) {
-    return Math.acos(x) * 360 / (2 * Math.PI);
-}
-
-function atan(x) {
-    return Math.atan(x) * 360 / (2 * Math.PI);
 }
 
 class MangleGrid {
@@ -154,10 +126,6 @@ app.controller("MainController", ["$scope", function MainController($scope) {
         for (var i = 0; i < mg.numberOfInstances; i++) {
             var namesTable = mg.getNamesTableForInstance(i);
 
-            if (isEmpty(namesTable)) { continue; }
-
-            console.log(namesTable);
-
             for (var j = 0; j < mg.numberOfKeyParameters; j++) {
                 var formula = mg.keyFormulae[j];
 
@@ -166,16 +134,8 @@ app.controller("MainController", ["$scope", function MainController($scope) {
 
                 if (isNullOrUndefined(formula)) { continue; }
 
-                var js = formula + ";";
-
-                for (var name in namesTable) {
-                    js = js.replaceAll(name, namesTable[name]);
-                }
-
-                console.log(js);
-
                 try {
-                    var a = eval(js);
+                    var a = math.evaluate(formula, namesTable);
 
                     mg._grid[j + m][i].trueValue = a;
 
@@ -196,14 +156,8 @@ app.controller("MainController", ["$scope", function MainController($scope) {
 
                 if (isNullOrUndefined(formula)) { continue; }
 
-                var js = formula + ";";
-
-                for (var name in namesTable) {
-                    js = js.replaceAll(name, namesTable[name]);
-                }
-
                 try {
-                    var a = eval(js);
+                    var a = math.evaluate(formula, namesTable);
 
                     mg._grid[j + m][i].trueValue = a;
 
