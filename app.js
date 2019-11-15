@@ -119,6 +119,42 @@ app.controller("MainController", ["$scope", function MainController($scope) {
         return text;
     }
 
+    $scope.getTableValues = function () {
+        var text = "";
+
+        var nqp = $scope.mangleGrid.numberOfQuestionParameters;
+        var mnqp = $scope.mangleGrid.maximumNumberOfQuestionParameters;
+
+        var nkp = $scope.mangleGrid.numberOfKeyParameters;
+        var mnkp = $scope.mangleGrid.maximumNumberOfKeyParameters;
+
+        var ndp = $scope.mangleGrid.numberOfDistractorParameters;
+        var mndp = $scope.mangleGrid.maximumNumberOfDistractorParameters;
+
+        for (var i = 0; i < nqp; i++) {
+            for (var j = 0; j < $scope.mangleGrid.numberOfInstances; j++) {
+                text += $scope.mangleGrid._grid[i][j] + "\t\t";
+            }
+            text += "\n";
+        }
+
+        for (var i = mnqp; i < mnqp + nkp; i++) {
+            for (var j = 0; j < $scope.mangleGrid.numberOfInstances; j++) {
+                text += $scope.mangleGrid._grid[i][j].displayValue + "\t\t";
+            }
+            text += "\n";
+        }
+
+        for (var i = mnqp + mnkp; i < mnqp + mnkp + ndp; i++) {
+            for (var j = 0; j < $scope.mangleGrid.numberOfInstances; j++) {
+                text += $scope.mangleGrid._grid[i][j].displayValue + "\t\t";
+            }
+            text += "\n";
+        }
+
+        return text;
+    }
+
     $scope.updateOutput = function () {
 
         var mg = $scope.mangleGrid;
