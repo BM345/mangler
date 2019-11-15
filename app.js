@@ -131,25 +131,33 @@ app.controller("MainController", ["$scope", function MainController($scope) {
         var ndp = $scope.mangleGrid.numberOfDistractorParameters;
         var mndp = $scope.mangleGrid.maximumNumberOfDistractorParameters;
 
+        var k = 1;
+
         for (var i = 0; i < nqp; i++) {
+            text += "p" + k + "\t\t";
             for (var j = 0; j < $scope.mangleGrid.numberOfInstances; j++) {
                 text += $scope.mangleGrid._grid[i][j] + "\t\t";
             }
             text += "\n";
+            k++;
         }
 
         for (var i = mnqp; i < mnqp + nkp; i++) {
+            text += "p" + k + "\t\t";
             for (var j = 0; j < $scope.mangleGrid.numberOfInstances; j++) {
                 text += $scope.mangleGrid._grid[i][j].displayValue + "\t\t";
             }
             text += "\n";
+            k++;
         }
 
         for (var i = mnqp + mnkp; i < mnqp + mnkp + ndp; i++) {
+            text += "p" + k + "\t\t";
             for (var j = 0; j < $scope.mangleGrid.numberOfInstances; j++) {
                 text += $scope.mangleGrid._grid[i][j].displayValue + "\t\t";
             }
             text += "\n";
+            k++;
         }
 
         return text;
