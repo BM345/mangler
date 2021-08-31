@@ -60,7 +60,7 @@
                 <td><input type="text" placeholder="identifier" ng-model="mangleGrid.identifiers[$index]" /></td>
 
                 <td ng-repeat="j in ni track by $index">
-                    <input type="number" placeholder="value" ng-model="mangleGrid.questionInputs[$parent.$index][$index]" />
+                    <input type="text" placeholder="value" ng-model="mangleGrid.questionInputs[$parent.$index][$index]" />
                 </td>
             </tr>
             <tr ng-repeat="i in nkp track by $index" class="keyRow">
